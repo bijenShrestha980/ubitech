@@ -2,20 +2,23 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 import { updateUser } from "../redux/apiCalls";
-import { updateUserFailure, updateUserSuccess } from "../redux/user";
+import { updateUserFailure, updateUserSuccess } from "../redux/slices/user";
 import Login from "./Login";
 
 const Profile = () => {
+  // const [username, setUsername] = useState("");
+  // const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("");
+
   const [inputs, setInputs] = useState({});
-  const [successful, setSuccessful] = useState(false);
   const location = useLocation();
-  const userId = location.pathname.split("/")[2];
+  const id = location.pathname.split("/")[2];
   const dispatch = useDispatch();
   let navigate = useNavigate();
   const logged = useSelector((state) => state.login.currentUser);
 
   const user = useSelector((state) =>
-    state.user.users.find((user) => user._id === userId)
+    state.user.users.find((user) => user._id === id)
   );
 
   const handleChange = (e) => {
@@ -26,10 +29,8 @@ const Profile = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    setSuccessful(false);
     const user = { ...inputs };
-    console.log({ ...inputs });
-    updateUser(user, userId, dispatch)
+    updateUser(id, user, dispatch)
       .then(() => {
         updateUserSuccess(true);
         navigate("/");
@@ -49,7 +50,7 @@ const Profile = () => {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="email"
           name="email"
           placeholder={user.email}
           className="px-5 py-5 mx-10 rounded-xl transition-all duration-75 outline-0"

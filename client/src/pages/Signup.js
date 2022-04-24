@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "../redux/apiCalls";
-import { addUserFaliure, addUserSuccess } from "../redux/user";
+import { addUserFaliure, addUserSuccess } from "../redux/slices/user";
 
 const Signup = () => {
   const [inputs, setInputs] = useState({});
-  const [successful, setSuccessful] = useState(false);
   const dispatch = useDispatch();
   let navigate = useNavigate();
 
@@ -17,7 +16,6 @@ const Signup = () => {
   };
   const handleRegister = (e) => {
     e.preventDefault();
-    setSuccessful(false);
     const user = { ...inputs };
     addUser(user, dispatch)
       .then(() => {

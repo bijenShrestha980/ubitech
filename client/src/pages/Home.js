@@ -3,20 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import Login from "../components/Login";
 import { deleteUser, getUsers } from "../redux/apiCalls";
-import { logout } from "../redux/login";
+import { logout } from "../redux/slices/login";
 
 const Home = () => {
   const users = useSelector((state) => state.user.users);
   const logged = useSelector((state) => state.login.currentUser);
-
   const dispatch = useDispatch();
+
   useEffect(() => {
     getUsers(dispatch);
-  }, [dispatch]);
+  }, []);
 
   const handleDelete = (id) => {
     deleteUser(id, dispatch);
   };
+
   const handleLogout = () => {
     dispatch(logout());
   };

@@ -1,5 +1,5 @@
 import { publicRequest, userRequest } from "../requestMethods";
-import { loginFaliure, loginStart, loginSuccess } from "./login";
+import { loginFaliure, loginStart, loginSuccess } from "./slices/login";
 import {
   getUserStart,
   getUserSuccess,
@@ -13,7 +13,7 @@ import {
   addUserStart,
   addUserSuccess,
   addUserFaliure,
-} from "./user";
+} from "./slices/user";
 
 export const login = async (dispatch, user) => {
   dispatch(loginStart());
@@ -39,6 +39,7 @@ export const deleteUser = async (id, dispatch) => {
   dispatch(deleteUserStart());
   try {
     // const res = await userRequest.delete(`/users/${id}`);
+
     dispatch(deleteUserSuccess(id));
   } catch (err) {
     dispatch(deleteUserFaliure());
@@ -49,8 +50,9 @@ export const updateUser = async (id, user, dispatch) => {
   dispatch(updateUserStart());
   try {
     // update
-    const res = await userRequest.post(`/users/${id}`, user);
-    dispatch(updateUserSuccess({ id, user }));
+    const res = await userRequest.put(`/users/${id}`, user);
+    // dispatch(updateUserSuccess({ id, user }));
+    dispatch(updateUserSuccess(res.data));
   } catch (err) {
     dispatch(updateUserFailure());
   }
